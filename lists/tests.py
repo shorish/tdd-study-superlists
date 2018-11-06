@@ -35,16 +35,44 @@ class HomePageTest(TestCase):
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'home.html')
 
+    def test_only_saves_items_when_necessary(self):
+        self.client.get('/')
+        self.assertEqual(Item.objects.count(), 0)
+
     def test_can_save_a_POST_request(self):
+        self.client.post('/', data={'item_text': 'A new list item'})
+        self.assertEqual(Item.objects.count(), 1)
+        new_item = Item.objects.first()
+        self.assertEqual(new_item.text, 'A new list item')
+
+        # self.assertIn('A new list item', response.content.decode('utf-8'))
+        # self.assertTemplateUsed(response, 'home.html')
+
+    #     self.assertEqual(response.status_code, 302)
+    #     self.assertEqual(response['location'], '/')
+
+    def test_redirect_after_POST(self):
         response = self.client.post('/', data={'item_text': 'A new list item'})
-        self.assertIn('A new list item', response.content.decode('utf-8'))
-        self.assertTemplateUsed(response, 'home.html')
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'], '/')
 
 # class SmokeTest(TestCase):
 #     """docstring for SmokeTest"""
 
 #     def test_bad_maths(self):
 #         self.assertEqual(1 + 1, 3)
+
+    def test_displays_all_list_items(self):
+        # 设置
+        Item.objects.create(text='itemey 1')
+        Item.objects.create(text='itemey 2')
+
+        # 使用
+        response = self.client.get('/')
+
+        # 断言
+        self.assertIn('itemey 1', response.content.decode())
+        self.assertIn('itemey 2', response.content.decode())
 
 
 class ItemModelTest(TestCase):
