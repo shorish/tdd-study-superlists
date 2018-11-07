@@ -54,25 +54,14 @@ class HomePageTest(TestCase):
     def test_redirect_after_POST(self):
         response = self.client.post('/', data={'item_text': 'A new list item'})
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/')
+        self.assertEqual(response['location'], '/lists/the-only-list-in-the-world/')
+        # self.assertEqual(response['location'], '/')
 
 # class SmokeTest(TestCase):
 #     """docstring for SmokeTest"""
 
 #     def test_bad_maths(self):
 #         self.assertEqual(1 + 1, 3)
-
-    def test_displays_all_list_items(self):
-        # 设置
-        Item.objects.create(text='itemey 1')
-        Item.objects.create(text='itemey 2')
-
-        # 使用
-        response = self.client.get('/')
-
-        # 断言
-        self.assertIn('itemey 1', response.content.decode())
-        self.assertIn('itemey 2', response.content.decode())
 
 
 class ItemModelTest(TestCase):
@@ -92,3 +81,25 @@ class ItemModelTest(TestCase):
         second_saved_item = saved_items[1]
         self.assertEqual(first_saved_item.text, 'The first (ever) list item')
         self.assertEqual(second_saved_item.text, 'Item the second')
+
+
+class ListViewTest(TestCase):
+    """docstring for ListViewTest"""
+
+    def test_displays_all_list_items(self):
+        # 设置
+        Item.objects.create(text='itemey 1')
+        Item.objects.create(text='itemey 2')
+
+        # 使用
+        response = self.client.get('/lists/the-only-list-in-the-world/')
+
+        # 断言
+        # self.assertIn('itemey 1', response.content.decode())
+        # self.assertIn('itemey 2', response.content.decode())
+        self.assertContains(response, 'itemey 1')
+        self.assertContains(response, 'itemey 2')
+
+    def test_users_list_template(self):
+        response = self.client.get('/lists/the-only-list-in-the-world/')
+        self.assertTemplateUsed(response, 'list.html')
