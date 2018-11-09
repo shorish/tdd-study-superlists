@@ -10,14 +10,16 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import WebDriverException
 import time
 # import unittest
-from django.test import LiveServerTestCase
+# from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
 MAX_WAIT = 10
 
 # class NewVisitorTest(unittest.TestCase):
+# class NewVisitorTest(LiveServerTestCase):
 
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVistitorTest(StaticLiveServerTestCase):
     """新访问者测试"""
 
     def setUp(self):
@@ -141,5 +143,5 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertAlmostEqual(
             inputbox.location['x'] + inputbox.size['width'] / 2,
             512,
-            delta=10
+            delta=25
         )
