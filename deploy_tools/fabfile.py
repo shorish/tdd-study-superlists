@@ -6,7 +6,7 @@ import string
 REPO_URL = 'git@github.com:shorish/tdd-study-superlists.git'
 
 
-def _create_directory_structure_if_nesessary(site_folder):
+def _create_directory_structure_if_necessary(site_folder):
     '''创建目录结构'''
     for subfolder in ('database', 'static', 'virtualenv', 'source'):
         run(f'mkdir -p {site_folder}/{subfolder}')
