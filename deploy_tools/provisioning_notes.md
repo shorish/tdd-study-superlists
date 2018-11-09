@@ -15,7 +15,7 @@
 
 ## Systemd服务
 
-* gunicorn-systemd.templates.conf
+* gunicorn-systemd.templates.service
 * 把SITENAME替换为所需的域名，如staging.my-domain.com
 
 ## 目录结构
