@@ -6,6 +6,7 @@
 # @Version : $Id$
 
 from .base import FunctionalTest
+
 # class NewVisitorTest(unittest.TestCase):
 # class NewVisitorTest(LiveServerTestCase):
 
